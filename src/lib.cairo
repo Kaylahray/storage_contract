@@ -1,14 +1,14 @@
 // THis is the contract Interface and allows updating and retrieval of name and age.
 
 #[starknet::interface]
-pub trait IStorage<TContractState> {
+pub trait IStudent<TContractState> {
     fn update(ref self: TContractState, new_name: felt252, age_val: u8);
     fn get_name_and_age(self: @TContractState) -> (felt252, felt252);
 }
 
 
 #[starknet::contract]
-mod Storage {
+mod Student {
     use core::starknet::storage::{StoragePointerReadAccess, StoragePointerWriteAccess};
 
     #[storage]
@@ -18,7 +18,7 @@ mod Storage {
     }
 
     #[abi(embed_v0)]
-    impl StorageImpl of super::IStorage<ContractState> {
+    impl StudentImpl of super::IStudent<ContractState> {
         fn update(ref self: ContractState, new_name: felt252, age_val: u8) {
             self.name.write(new_name);
             let current_age = self.age.read();
